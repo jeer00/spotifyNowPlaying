@@ -15,7 +15,7 @@
  import session from 'express-session'
  import helmet from 'helmet'
  import { createServer } from 'node:http'
- import { Server } from 'socket.io'
+
  
  
  // await connectDB()
@@ -30,7 +30,7 @@
  app.use(helmet.
    contentSecurityPolicy(
      { directives: {
-        ...helmet.contentSecurityPolicy.getDefaultDirectives(), 'img-src': ['self', 'https://**.spotify.com'] } })) 
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(), 'img-src': ['self', 'https://*.scdn.co'] } })) 
  const httpServer = createServer(app)
  
    // Not necessary, but nice to log when a user connects/disconnects.

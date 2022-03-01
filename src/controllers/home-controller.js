@@ -2,8 +2,10 @@
 import fetch from 'node-fetch'
 export class HomeController {
    async index(req, res, next) {
+
+    // Get the access-token
     const basic = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64');
-    // 
+    
         const response = await fetch(`https://accounts.spotify.com/api/token`, {
         method: 'POST',
         headers: {
@@ -20,7 +22,7 @@ export class HomeController {
         
         const  accessToken = jsonData.access_token
     
-
+        // get the current-song playing
         const data = await fetch(`https://api.spotify.com/v1/me/player/currently-playing`, {
     
     headers: {
@@ -29,7 +31,16 @@ export class HomeController {
   })
 
   const nowPlaying = await data.json()
-  const viewData = {name: nowPlaying.item.name, artists: nowPlaying.item.artists[0].name, img: nowPlaying.item.album.images[0], duration: nowPlaying.item.duration_ms, progress: nowPlaying.progress_ms}
-  
+  const viewData = {
+    name: nowPlaying.item.name,
+    artists: nowPlaying.item.artists[0].name,
+    img: nowPlaying.item.album.images[0],
+    duration: nowPlaying.item.duration_ms,
+    progress: nowPlaying.progress_ms
+  }
+  console.log(viewData)
+
+    res.render('home/index', { viewData })
     }
+    
 }
