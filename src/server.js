@@ -11,10 +11,9 @@
  import { dirname, join } from 'node:path'
  import { fileURLToPath } from 'node:url'
  import { router } from './routes/router.js'
- // import { connectDB } from './config/mongoose.js'
- import session from 'express-session'
  import helmet from 'helmet'
  import { createServer } from 'node:http'
+ import { Server } from 'socket.io' 
 
  
  
@@ -32,7 +31,17 @@
      { directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(), 'img-src': ['self', 'https://*.scdn.co'] } })) 
  const httpServer = createServer(app)
- 
+ const io = new Server(httpServer)
+
+  // Not necessary, but nice to log when a user connects/disconnects.
+  
+  io.on('connection', (socket) => {
+    console.log('socket.io: a user connected')
+  
+    socket.on('disconnect', () => {
+      console.log('socket.io: a user disconnected')
+    })
+  })
    // Not necessary, but nice to log when a user connects/disconnects.
    
  
@@ -59,8 +68,7 @@
  
    // Pass the base URL to the views.
    res.locals.baseURL = baseURL
-
- 
+   res.io = io
 
    next()
  })

@@ -38,9 +38,16 @@ export class HomeController {
     duration: nowPlaying.item.duration_ms,
     progress: nowPlaying.progress_ms
   }
-  console.log(viewData)
 
-    res.render('home/index', { viewData })
+  res.render('home/index', { viewData })
+
+  setTimeout(function(){
+    res.io.emit('spotify/duration', viewData)
+  }, 1000);
+ 
+  
+    
+    
     }
     
 }
