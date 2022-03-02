@@ -40,7 +40,10 @@
   
     socket.on('disconnect', () => {
       console.log('socket.io: a user disconnected')
+      
     })
+
+    
   })
    // Not necessary, but nice to log when a user connects/disconnects.
    
